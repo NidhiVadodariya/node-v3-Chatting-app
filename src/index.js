@@ -63,8 +63,9 @@ io.on('connection',(socket) => {
 
         if(filter.isProfane(msg)){
             return callback('profanity is not allowed!!')
-        }         
-        io.to(user.room).emit('message',generateMessages(user.username,msg))
+        }
+        socket.emit('message',generateMessages(user.username,msg))       
+        socket.broadcast.to(user.room).emit('messagetoOthers',generateMessages(user.username,msg))
         callback()
     })
 
@@ -72,7 +73,7 @@ io.on('connection',(socket) => {
         const  user = removeUser(socket.id)
 
         if(user){
-            io.to(user.room).emit('message',generateMessages(`${user.username} has left !!!`))
+            io.to(user.room).emit('messagetoOthers',generateMessages(`${user.username} has left !!!`))
             io.to(user.room).emit('roomData',{
                 room : user.room,
                 users : getUserInRoom(user.room)
@@ -83,7 +84,8 @@ io.on('connection',(socket) => {
 
     socket.on('sendLocation', (coords,callback) => {
         const user = getUser(socket.id)
-        io.to(user.room).emit('locationMessage',generateLocationMessages(user.username,`https://google.com/maps?q=${coords.latitude},${coords.latitude}`))
+        socket.emit('locationMessage',generateMessages(user.username,`https://google.com/maps?q=${coords.latitude},${coords.latitude}`))       
+        socket.broadcast.to(user.room).emit('locationMessagetoOthers',generateMessages(user.username,`https://google.com/maps?q=${coords.latitude},${coords.latitude}`))
         callback()
     })
 })

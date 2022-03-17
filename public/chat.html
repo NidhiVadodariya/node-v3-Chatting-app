@@ -19,28 +19,42 @@
       
     </div>
 
-    <div class="chat-main text-black-50 w-50 overflow-auto p-3 col" style=" background-color :#c9b8e3">
-      <div id="messages" class="mt-5"></div>
+    <div class="chat-main text-black-50 w-50 overflow-auto p-3 col" style=" background-color :#c9b8e3; height: 500px!important;">
+      
 
       <div class="compose">
-        <form id="message-form" class="mt-5">
+        <div id="messages" class="mt-5" ></div>
+        <div class="form-division">
+          <form id="message-form" class="mt-5" >
 
-          <div class="form-group">
-            <label for="messageBox">Enter your message here</label>
-            <input type="text" class="form-control" name="message" id="messageBox" aria-describedby="emailHelp" />
-          </div>
-
-          <button type="submit" class="btn btn-success"> Send a message </button>
-
-          <button type="submit" class="btn btn-primary" id="send-location"> Send your location </button>
-
-        </form>
+            <div class="form-group">
+              <p for="messageBox" style="color: #1e1825; clear: both;">Enter your message here</p>
+              <input type="text" class="form-control" name="message" id="messageBox" aria-describedby="emailHelp" />
+            </div>
+  
+            <button type="submit" class="btn btn-success" style="background-color: #1e1825;"> Send a message </button>
+  
+            <button type="submit" class="btn btn-primary" id="send-location" style="background-color: #1e1825;"> Send your location </button>
+  
+          </form>
+        </div>
+        
       </div>
     </div>
   </div>
 
   <script id="message-template" type="text/html">
-      <div class="alert alert-primary" style="width: fit-content;">
+      <div class="alert alert-light float-left" style="width: fit-content; color: #1e1825; clear: both;">
+        <p>
+          <span class="font-weight-bold h5">{{username}}</span>
+          <span>{{createdAt}}</span>
+        </p>
+        <p>{{message}}</p>
+      </div>
+    </script>
+
+    <script id="message-other-template" type="text/html">
+      <div class="alert alert-danger float-right" style="width: fit-content; color: #1e1825; clear: both;">
         <p>
           <span class="font-weight-bold h5">{{username}}</span>
           <span>{{createdAt}}</span>
@@ -50,13 +64,25 @@
     </script>
 
   <script id="location-message-template" type="text/html">
-      <div class="alert alert-light" style="width: fit-content;">
+      <div class="alert alert-light float-left" style="width: fit-content; color: #1e1825; clear: both;">
         <p>
           <span class="font-weight-bold h5">{{username}}</span>
           <span>{{createdAt}}</span>
         </p>
         <p>
-          <a href="{{url}}" target="_blank">you location</a>
+          <a href="{{url}}" target="_blank">your location</a>
+        </p>
+      </div>
+    </script>
+
+    <script id="location-message-template-others" type="text/html">
+      <div class="alert alert-danger float-right" style="width: fit-content; color: #1e1825; clear: both;">
+        <p>
+          <span class="font-weight-bold h5">{{username}}</span>
+          <span>{{createdAt}}</span>
+        </p>
+        <p>
+          <a href="{{url}}" target="_blank">{{username}}'s location</a>
         </p>
       </div>
     </script>

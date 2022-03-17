@@ -17,7 +17,9 @@ $messages = document.querySelector('#messages')
 
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
+const messagetoOthersTemplate = document.querySelector('#message-other-template').innerHTML
 const locationMessageTemplete = document.querySelector('#location-message-template').innerHTML
+const locationMessageTempleteOthers = document.querySelector('#location-message-template-others').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 //Options
@@ -58,9 +60,31 @@ socket.on('message', (message) => {
     autoscroll()
 })
 
+socket.on('messagetoOthers', (message) => {
+    console.log(message);
+    const html = Mustache.render(messagetoOthersTemplate,{
+        username : message.username,
+        message : message.text,
+        createdAt : moment(message.createdAt).format('D MMM hh:mm a')
+    })
+    $messages.insertAdjacentHTML('beforeend',html)
+    autoscroll()
+})
+
 socket.on('locationMessage', (message) => {
     console.log(message);
     const html = Mustache.render(locationMessageTemplete,{
+        username : message.username,
+        url : message.url,
+        createdAt : moment(message.createdAt).format('D MMM hh:mm a')        
+    })
+    $messages.insertAdjacentHTML('beforeend',html)
+    autoscroll()
+})
+
+socket.on('locationMessagetoOthers', (message) => {
+    console.log(message);
+    const html = Mustache.render(locationMessageTempleteOthers,{
         username : message.username,
         url : message.url,
         createdAt : moment(message.createdAt).format('D MMM hh:mm a')        
